@@ -1,0 +1,28 @@
+version: "3"
+services:
+  postgres:
+    image: postgres:15-alpine
+    domainname: postgres
+#    volumes:
+#      - ./postgres/data/db:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5432:5432"
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_CREDENTIALS_USERNAME}
+      - POSTGRES_PASSWORD=${POSTGRES_CREDENTIALS_PASSWORD}
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-U", "postgres" ]
+      interval: 5s
+      timeout: 1s
+      retries: 2
+
+  flyway:
+    image: flyway/flyway
+    command: -url=jdbc:postgresql://postgres:${POSTGRES_PORT}/${POSTGRES_DB} -schemas=${POSTGRES_SCHEMAS} -user=${POSTGRES_CREDENTIALS_USERNAME} -password=${POSTGRES_CREDENTIALS_PASSWORD} -connectRetries=30 migrate
+    volumes:
+      - ./flyway:/flyway/sql
+    depends_on:
+      - postgres
+    ports:
+      - "7500:7500"
