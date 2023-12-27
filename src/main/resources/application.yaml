@@ -1,1 +1,17 @@
+server:
+  port: 8091
 
+spring:
+  profiles:
+    active: develop
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        default_schema: ${database.url.schema}
+    hibernate:
+      ddl-auto: validate
+  datasource:
+    url: jdbc:postgresql://${database.url.host}:${database.url.port}/${database.url.db}?currentSchema=${database.url.schema}
+    username: ${database.credentials.username}
+    password: ${database.credentials.password}

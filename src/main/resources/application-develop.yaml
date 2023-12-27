@@ -1,0 +1,9 @@
+database:
+  url:
+    host: ${POSTGRES_HOST}
+    port: ${POSTGRES_PORT}
+    db: ${POSTGRES_DB}
+    schema: ${POSTGRES_SCHEMAS}
+  credentials:
+    username: ${POSTGRES_CREDENTIALS_USERNAME}
+    password: ${POSTGRES_CREDENTIALS_PASSWORD}
