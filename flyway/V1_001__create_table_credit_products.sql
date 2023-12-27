@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS credit_products (
-    id                      serial  primary key,                -- id
-    name                    text    unique          not null,   -- Название кредитного продукта
+    id                      bigserial primary key,              -- id
+    name                    text      unique        not null,   -- Название кредитного продукта
     interest_rate           numeric(6,4)            not null,   -- Процентная ставка кредитного продукта
     amount_min              numeric(19,4)           not null,   -- Минимально возможная сумма кредитного продукта
     amount_max              numeric(19,4)           not null,   -- Максимально возможная сумма кредитного продукта
@@ -14,5 +14,5 @@ CREATE TABLE IF NOT EXISTS credit_products (
     );
 
 --Для быстрого поиска по имени кредитного продукта
-CREATE EXTENSION pg_trgm;
+CREATE EXTENSION IF NOT EXISTS pg_trgm;
 CREATE INDEX IF NOT EXISTS credit_products_idx_name ON credit_products USING GIN (name gin_trgm_ops);
